@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class HttpResponse {
 
@@ -19,6 +20,19 @@ public class HttpResponse {
 
     public void setHeader(String headerName, String headerValue) {
         this.headerMap.put(headerName, headerValue);
+    }
+
+    public void renderRawBody(byte[] rawBody) {
+        try {
+            final byte[] rawResponseLineAndHeaders = buildResponseLineAndHeadersInRawBytes();
+            outputStream.write(rawResponseLineAndHeaders);
+            if (rawBody != null) {
+                outputStream.write(rawBody);
+            }
+            outputStream.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setBody(byte[] body) {
@@ -67,11 +81,38 @@ public class HttpResponse {
             this.statusCode = statusCode;
             this.reasonPhrase = reasonPhrase;
         }
+
+        public int getHttpStatusCode() {
+            return statusCode;
+        }
+
+        public String getReasonPhrase() {
+            return reasonPhrase;
+        }
     }
 
     public HttpResponse(OutputStream outputStream) {
         this.outputStream = outputStream;
     }
 
+    private byte[] buildResponseLineAndHeadersInRawBytes() {
+        Objects.requireNonNull(httpStatus);
+        final StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder
+                .append("HTTP/1.1").append(" ")
+                .append(httpStatus.getHttpStatusCode()).append(" ")
+                .append(httpStatus.getReasonPhrase()).append(CRLF);
 
+        for (Map.Entry<String, String> headerMapEntry : headerMap.entrySet()) {
+            stringBuilder
+                    .append(headerMapEntry.getKey()).append(": ")
+                    .append(headerMapEntry.getValue())
+                    .append(CRLF);
+        }
+
+        stringBuilder.append(CRLF);
+        final String responseLineAndHeaders = stringBuilder.toString();
+        final byte[] rawResponseLineAndHeaders = responseLineAndHeaders.getBytes(StandardCharsets.UTF_8);
+        return rawResponseLineAndHeaders;
+    }
 }

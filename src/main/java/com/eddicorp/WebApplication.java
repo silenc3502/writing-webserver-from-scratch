@@ -7,6 +7,7 @@ import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;
 import com.eddicorp.member.Member;
 import com.eddicorp.member.MemberRequest;
+import com.eddicorp.network.WebRequestReceiver;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
@@ -33,10 +34,18 @@ public class WebApplication {
     public static Map<String, Object> context = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
-        // index.html 브라우저에 띄워보기
+
         final ServerSocket serverSocket = new ServerSocket(8787);
+        Socket clientSocket;
+        while ((clientSocket = serverSocket.accept()) != null) {
+            final WebRequestReceiver receiver = new WebRequestReceiver(clientSocket);
+            receiver.receiveData();
+        }
+
+        // index.html 브라우저에 띄워보기
+        final ServerSocket serverSocket2 = new ServerSocket(8787);
         Socket connection;
-        while ((connection = serverSocket.accept()) != null) {
+        while ((connection = serverSocket2.accept()) != null) {
             try (
                     final InputStream inputStream = connection.getInputStream();
                     final OutputStream outputStream = connection.getOutputStream()

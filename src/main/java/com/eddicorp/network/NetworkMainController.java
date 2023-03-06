@@ -18,6 +18,9 @@ public class NetworkMainController implements Controller {
         final RequestMapper mapWritePost = new RequestMapper("/post", HttpMethod.POST);
     }
 
+    private final Controller staticFileController = new StaticFileController();
+    //private final Controller notFoundController = new NotFoundController();
+
     @Override
     public void handle(HttpRequest request, HttpResponse response) {
         final String uri = request.getUri();
@@ -34,8 +37,10 @@ public class NetworkMainController implements Controller {
         final URL maybeResource = this.getClass().getClassLoader().getResource(pathToLoad);
         System.out.println("maybeResource = " + maybeResource);
         if (maybeResource != null) {
-
+            staticFileController.handle(request, response);
             return;
         }
+
+        //notFoundController.handle(request, response);
     }
 }
