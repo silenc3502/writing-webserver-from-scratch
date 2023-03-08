@@ -19,7 +19,7 @@ public class NetworkMainController implements Controller {
     }
 
     private final Controller staticFileController = new StaticFileController();
-    //private final Controller notFoundController = new NotFoundController();
+    private final Controller notFoundController = new NotFoundController();
 
     @Override
     public void handle(HttpRequest request, HttpResponse response) {
@@ -41,6 +41,6 @@ public class NetworkMainController implements Controller {
             return;
         }
 
-        //notFoundController.handle(request, response);
+        notFoundController.handle(request, response);
     }
 }
