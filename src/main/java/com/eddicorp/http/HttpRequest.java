@@ -2,23 +2,58 @@ package com.eddicorp.http;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HttpRequest {
+
     private final String uri;
-
-    public String getUri() {
-        return uri;
-    }
-
     private final HttpMethod httpMethod;
 
-    public HttpRequest(InputStream inputStream) throws IOException {
-        final String rawRequestLine = readLine(inputStream);
-        final String[] partsOfRequestLine = rawRequestLine.split(" ");
-        this.uri = partsOfRequestLine[1];
+    private final Map<String, String> headerMap = new HashMap<>();
 
-        httpMethod = HttpMethod.checkHttpMethod(partsOfRequestLine[0]);
-        System.out.println("HTTP METHOD: " + httpMethod);
+    private final Map<String, String> parameterMap = new HashMap<>();
+
+    private final byte[] rawBody;
+
+    public HttpRequest(final InputStream inputStream) throws IOException {
+        final String requestLine = readLine(inputStream);
+        final String[] partsOfRequestLine = requestLine.split(" ");
+        this.httpMethod = HttpMethod.valueOf(partsOfRequestLine[0]);
+        final String[] uriAndQueryString = partsOfRequestLine[1].split("\\?");
+        this.uri = uriAndQueryString[0].trim();
+        parseHeaders(inputStream);
+        final byte[] rawBody = parseBody(inputStream);
+        parseParameters(rawBody);
+        this.rawBody = rawBody;
+    }
+
+    private void parseParameters(byte[] rawBody) throws UnsupportedEncodingException {
+        final String contentType = headerMap.get("Content-Type");
+        if ("application/x-www-form-urlencoded".equals(contentType) && rawBody != null) {
+            final String urlEncodedForm = new String(rawBody);
+            final String decoded = URLDecoder.decode(urlEncodedForm, StandardCharsets.UTF_8.name());
+            final String[] keyAndValues = decoded.split("&");
+            for (String keyAndValue : keyAndValues) {
+                final String[] split = keyAndValue.split("=");
+                if (split.length > 1) {
+                    parameterMap.put(split[0].trim(), split[1].trim());
+                }
+            }
+        }
+    }
+
+    private void parseHeaders(InputStream inputStream) throws IOException {
+        String rawHeader;
+        while (!"".equals((rawHeader = readLine(inputStream)))) {
+            final String[] headerAndValues = rawHeader.split(":");
+            final String headerName = headerAndValues[0].trim();
+            final String headerValue = headerAndValues[1].trim();
+            headerMap.put(headerName, headerValue);
+        }
     }
 
     private static String readLine(InputStream inputStream) throws IOException {
@@ -30,7 +65,7 @@ public class HttpRequest {
                 if (((char) inputStream.read()) == '\n') {
                     return stringBuilder.toString();
                 } else {
-                    throw new IllegalStateException("Invalid HTTP request.");
+                    throw new IllegalStateException("Unable to parse line.");
                 }
             }
             stringBuilder.append(currentChar);
@@ -38,7 +73,33 @@ public class HttpRequest {
         throw new IllegalStateException("Unable to find CRLF");
     }
 
+    private static byte[] parseBody(InputStream inputStream) throws IOException {
+        if (inputStream.available() > 0) {
+            final byte[] bodyBytes = new byte[inputStream.available()];
+            inputStream.read(bodyBytes);
+            return bodyBytes;
+        } else {
+            return null;
+        }
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
     public HttpMethod getHttpMethod() {
         return httpMethod;
+    }
+
+    public Map<String, String> getHeaderMap() {
+        return headerMap;
+    }
+
+    public String getParameter(String parameterName) {
+        return parameterMap.get(parameterName);
+    }
+
+    public Map<String, String> getParameterMap() {
+        return parameterMap;
     }
 }
