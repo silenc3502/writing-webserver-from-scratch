@@ -14,8 +14,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
 
 @DisplayName("HttpRequest test")
 public class HttpRequestTest {
@@ -69,5 +69,51 @@ public class HttpRequestTest {
         sutBodyParameter.put("content", "test");
 
         assertEquals(sutBodyParameter, httpRequest.getParameterMap());
+    }
+
+    @Test
+    public void 일부_파라미터_얻기() {
+
+        final String sutString = "test";
+
+        assertEquals(sutString, httpRequest.getParameter("title"));
+    }
+
+    @Test
+    public void 파싱_불가능() throws IOException {
+        final String requestMessage =
+                "POST /api/signup HTTP/1.1\r";
+
+        final byte[] requestBytes = requestMessage.getBytes(StandardCharsets.UTF_8);
+        final InputStream byteArrayInputStream = new ByteArrayInputStream(requestBytes);
+        assertThrows(IllegalStateException.class, () -> {
+            new HttpRequest(byteArrayInputStream);
+        });
+    }
+
+    @Test
+    public void CRLF_찾지못함() {
+        final String requestMessage =
+                "POST /api/signup HTTP/1.1";
+
+        final byte[] requestBytes = requestMessage.getBytes(StandardCharsets.UTF_8);
+        final InputStream byteArrayInputStream = new ByteArrayInputStream(requestBytes);
+        assertThrows(IllegalStateException.class, () -> {
+            new HttpRequest(byteArrayInputStream);
+        });
+    }
+
+    @Test
+    public void 파싱할_body_없음() throws IOException {
+        final String requestMessage =
+                "POST /api/signup HTTP/1.1\r\n" +
+                "\r\n";
+
+        final byte[] requestBytes = requestMessage.getBytes(StandardCharsets.UTF_8);
+        final InputStream byteArrayInputStream = new ByteArrayInputStream(requestBytes);
+        httpRequest = new HttpRequest(byteArrayInputStream);
+        Map<String, String> sutEmptyMap = new HashMap<>();
+
+        assertEquals(sutEmptyMap, httpRequest.getParameterMap());
     }
 }

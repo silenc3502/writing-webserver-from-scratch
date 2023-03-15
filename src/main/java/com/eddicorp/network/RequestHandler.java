@@ -9,13 +9,13 @@ import java.io.OutputStream;
 
 public class RequestHandler {
 
-    private final NetworkMainController networkMainController = new NetworkMainController();
+    private final MainRouter mainRouter = new MainRouter();
 
     public void handle(final InputStream inputStream, OutputStream outputStream) {
         try {
             final HttpRequest httpRequest = new HttpRequest(inputStream);
             final HttpResponse httpResponse = new HttpResponse(outputStream);
-            networkMainController.handle(httpRequest, httpResponse);
+            mainRouter.handle(httpRequest, httpResponse);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

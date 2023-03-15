@@ -103,10 +103,10 @@ public class WebApplication {
                         System.out.println("로그인을 진행해주세요.");
 
                         HttpResponse httpResponse = new HttpResponse(outputStream);
-                        httpResponse.setHttpStatus(HttpResponse.HttpStatus.FOUND);
+                        //httpResponse.setHttpStatus(HttpResponse.HttpStatus.FOUND);
                         httpResponse.setHeader("Content-Length", "0");
                         httpResponse.setHeader("Location", "http://localhost:8787/login.html");
-                        httpResponse.postFlush();
+                        //httpResponse.postFlush();
                     } else if (filename.equals("/login")) {
                         // HTTP METHOD: POST
                         // extension = null
@@ -117,7 +117,7 @@ public class WebApplication {
                         MemberRequest memberRequest = readRemainJsonStreamForMemberRequest(inputStream);
 
                         HttpResponse httpResponse = new HttpResponse(outputStream);
-                        httpResponse.setHttpStatus(HttpResponse.HttpStatus.FOUND);
+                        //httpResponse.setHttpStatus(HttpResponse.HttpStatus.FOUND);
                         httpResponse.setHeader("Content-Length", "0");
                         httpResponse.setHeader("Location", "http://localhost:8787/");
 
@@ -143,7 +143,7 @@ public class WebApplication {
                             loginCheck = false;
                         }
 
-                        httpResponse.postFlush();
+                        //httpResponse.postFlush();
                     } else if (filename.equals("/post")) {
                         PostRequest postRequest = readRemainJsonStreamForPostRequest(inputStream);
                         Post post = new Post((long) posts.size(), postRequest.getTitle(), postRequest.getContent(), postRequest.getAuthor());
@@ -151,10 +151,10 @@ public class WebApplication {
                         posts.add(post);
 
                         HttpResponse httpResponse = new HttpResponse(outputStream);
-                        httpResponse.setHttpStatus(HttpResponse.HttpStatus.FOUND);
+                        //httpResponse.setHttpStatus(HttpResponse.HttpStatus.FOUND);
                         httpResponse.setHeader("Content-Length", "0");
                         httpResponse.setHeader("Location", "http://localhost:8787/");
-                        httpResponse.postFlush();
+                        //httpResponse.postFlush();
                     }
 
 
@@ -182,10 +182,10 @@ public class WebApplication {
                         }
 
                         HttpResponse httpResponse = new HttpResponse(outputStream);
-                        httpResponse.setHttpStatus(HttpResponse.HttpStatus.FOUND);
+                        //httpResponse.setHttpStatus(HttpResponse.HttpStatus.FOUND);
                         httpResponse.setHeader("Content-Length", "0");
                         httpResponse.setHeader("Location", "http://localhost:8787/");
-                        httpResponse.postFlush();
+                        //httpResponse.postFlush();
                     } else {
                         // 이대로라면 문제가 생김. mime type을 지정해주지 않았기 때문에!
                         byte[] rawFileToServe = readFileFromResourceStream(filename);
@@ -206,17 +206,17 @@ public class WebApplication {
                         final HttpResponse httpResponse = new HttpResponse(outputStream);
                         // 1. 상태라인
                         // - HTTP/1.1 200 OK
-                        httpResponse.setHttpStatus(HttpResponse.HttpStatus.OK);
+                        //httpResponse.setHttpStatus(HttpResponse.HttpStatus.OK);
                         // 2. 헤더
                         // - Content-Type: text/html; charset=utf-8
                         httpResponse.setHeader("Content-Type", mimeType);
                         // - Content-Length: rawFileToServe.length
                         httpResponse.setHeader("Content-Length", String.valueOf(rawFileToServe.length));
                         // 3. 바디
-                        httpResponse.setBody(rawFileToServe);
+                        //httpResponse.setBody(rawFileToServe);
 
                         // 응답하기!
-                        httpResponse.flush();
+                        //httpResponse.flush();
                     }
                 }
             }

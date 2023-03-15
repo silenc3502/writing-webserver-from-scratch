@@ -2,6 +2,7 @@ package com.eddicorp.network;
 
 import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;
+import com.eddicorp.http.HttpStatus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class StaticFileController implements Controller {
             final String mimeType = determineMimeType(uri);
             response.setHeader("Content-Type", mimeType);
             response.setHeader("Content-Length", String.valueOf(rawContent.length));
-            response.setHttpStatus(HttpResponse.HttpStatus.OK);
+            response.setStatus(HttpStatus.OK);
             response.renderRawBody(rawContent);
         } catch (IOException e) {
             throw new RuntimeException(e);

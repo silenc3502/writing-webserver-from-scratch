@@ -1,5 +1,7 @@
 package com.eddicorp.network;
 
+import com.eddicorp.controller.IndexController;
+import com.eddicorp.controller.SignUpController;
 import com.eddicorp.http.HttpMethod;
 import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;
@@ -9,13 +11,24 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NetworkMainController implements Controller {
+public class MainRouter implements Controller {
 
     private static final String STATIC_FILE_PATH = "pages";
     private static final Map<RequestMapper, Controller> requestMap = new HashMap<>();
 
     static {
+        final RequestMapper mapIndexPage = new RequestMapper("/", HttpMethod.GET);
+        requestMap.put(mapIndexPage, new IndexController());
+
+        final RequestMapper mapSignUp = new RequestMapper("/users", HttpMethod.POST);
+        requestMap.put(mapSignUp, new SignUpController());
+
+        final RequestMapper mapLogin = new RequestMapper("/login", HttpMethod.POST);
+
+        final RequestMapper mapLogout = new RequestMapper("/logout", HttpMethod.GET);
+
         final RequestMapper mapWritePost = new RequestMapper("/post", HttpMethod.POST);
+
     }
 
     private final Controller staticFileController = new StaticFileController();
