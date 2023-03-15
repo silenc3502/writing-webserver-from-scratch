@@ -31,8 +31,8 @@ public class BasicTest {
                 "</article>";
 
         final List<Post> posts = new ArrayList<Post>();
-        posts.add(new Post(1L, "hi", "hi", "hi"));
-        posts.add(new Post(2L, "test", "test", "test"));
+        posts.add(new Post("hi", "hi", "hi"));
+        posts.add(new Post("test", "test", "test"));
 
         final Template template =
                 compiler.compile(templateStringFromIndexHtmlFile);
@@ -66,8 +66,8 @@ public class BasicTest {
                 "</article>";
 
         final List<Post> posts = new ArrayList<Post>();
-        posts.add(new Post(1L, "hi", "hi", "hi"));
-        posts.add(new Post(2L, "test", "test", "test"));
+        posts.add(new Post("hi", "hi", "hi"));
+        posts.add(new Post("test", "test", "test"));
 
         final Template template =
                 compiler.compile(templateStringFromIndexHtmlFile);

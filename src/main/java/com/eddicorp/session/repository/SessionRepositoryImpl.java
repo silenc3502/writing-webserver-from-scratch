@@ -63,12 +63,12 @@ public class SessionRepositoryImpl implements SessionRepository {
 
     @Override
     public Object getAttribute(String name) {
-        return null;
+        return sessionMap.get(name);
     }
 
     @Override
     public void removeAttribute(String name) {
-
+        sessionMap.remove(name);
     }
 
     @Override

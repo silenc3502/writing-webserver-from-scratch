@@ -1,6 +1,8 @@
 package com.eddicorp.network;
 
+import com.eddicorp.blog.controller.BlogPostController;
 import com.eddicorp.controller.IndexController;
+import com.eddicorp.controller.LogoutController;
 import com.eddicorp.controller.SignInController;
 import com.eddicorp.controller.SignUpController;
 import com.eddicorp.http.HttpMethod;
@@ -28,9 +30,10 @@ public class MainRouter implements Controller {
         requestMap.put(mapLogin, new SignInController());
 
         final RequestMapper mapLogout = new RequestMapper("/logout", HttpMethod.GET);
+        requestMap.put(mapLogout, new LogoutController());
 
         final RequestMapper mapWritePost = new RequestMapper("/post", HttpMethod.POST);
-
+        requestMap.put(mapWritePost, new BlogPostController());
     }
 
     private final Controller staticFileController = new StaticFileController();

@@ -17,7 +17,7 @@ public class HttpRequest {
 
     private final Map<String, String> headerMap = new HashMap<>();
     private final Map<String, String> parameterMap = new HashMap<>();
-    private final Map<String, Cookie> cookieMap = new HashMap<>();
+    private Map<String, Cookie> cookieMap = new HashMap<>();
 
     private final byte[] rawBody;
 
@@ -121,5 +121,9 @@ public class HttpRequest {
 
     public Cookie getCookie(String name) {
         return cookieMap.get(name);
+    }
+
+    public void clearCookie(String name) {
+        cookieMap.remove(name);
     }
 }

@@ -1,9 +1,14 @@
 package com.eddicorp.controller;
 
+import com.eddicorp.blog.Post;
+import com.eddicorp.blog.service.BlogPostService;
+import com.eddicorp.blog.service.BlogPostServiceImpl;
 import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;
 import com.eddicorp.http.HttpStatus;
+import com.eddicorp.member.Member;
 import com.eddicorp.network.Controller;
+import com.eddicorp.session.Cookie;
 import com.eddicorp.session.Session;
 import com.eddicorp.session.repository.SessionRepository;
 import com.eddicorp.session.repository.SessionRepositoryImpl;
@@ -16,6 +21,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class IndexController implements Controller {
@@ -23,10 +29,12 @@ public class IndexController implements Controller {
     private static final String STATIC_FILE_PATH = "pages";
     private final Mustache.Compiler compiler = Mustache.compiler();
     private Template template = null;
-    //private final SessionRepository sessionRepository = SessionRepositoryImpl.getInstance();
+    private final SessionRepository sessionRepository = SessionRepositoryImpl.getInstance();
+    private final BlogPostService blogPostService = new BlogPostServiceImpl();
 
     @Override
     public void handle(HttpRequest request, HttpResponse response) {
+        final List<Post> posts = blogPostService.getAllPosts();
         final String pathToLoad = Paths.get(STATIC_FILE_PATH, "index.html").toString();
         try (
                 final InputStream staticFileInputStream = this.getClass().getClassLoader().getResourceAsStream(pathToLoad);
@@ -38,6 +46,23 @@ public class IndexController implements Controller {
             }
 
             final Map<String, Object> context = new HashMap<>();
+            System.out.println("request.getCookie('JSESSIONID'): " + request.getCookie("JSESSIONID"));
+
+            final Cookie cookie = request.getCookie("JSESSIONID");
+
+            if (cookie != null) {
+                final String sessionId = cookie.getValue();
+                System.out.println("sessionId: " + sessionRepository.getAttribute(sessionId));
+                Member member = (Member) sessionRepository.getAttribute(sessionId);
+
+                if (member != null) {
+                    context.put("isLoggedIn", true);
+                } else {
+                    context.put("isLoggedIn", false);
+                }
+            } else {
+                context.put("isLoggedIn", false);
+            }
             //JSESSIONID
             //final String sessionString = request.getCookie("JSESSIONID").getValue();
 
@@ -46,6 +71,7 @@ public class IndexController implements Controller {
 //            } else {
 //                context.put("isLoggedIn", false);
 //            }
+            context.put("posts", posts);
 
             final String rendered = template.execute(context);
             final byte[] rawContent = rendered.getBytes(StandardCharsets.UTF_8);
