@@ -4,6 +4,9 @@ import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;
 import com.eddicorp.http.HttpStatus;
 import com.eddicorp.network.Controller;
+import com.eddicorp.session.Session;
+import com.eddicorp.session.repository.SessionRepository;
+import com.eddicorp.session.repository.SessionRepositoryImpl;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
@@ -19,8 +22,8 @@ public class IndexController implements Controller {
 
     private static final String STATIC_FILE_PATH = "pages";
     private final Mustache.Compiler compiler = Mustache.compiler();
-
     private Template template = null;
+    //private final SessionRepository sessionRepository = SessionRepositoryImpl.getInstance();
 
     @Override
     public void handle(HttpRequest request, HttpResponse response) {
@@ -35,6 +38,14 @@ public class IndexController implements Controller {
             }
 
             final Map<String, Object> context = new HashMap<>();
+            //JSESSIONID
+            //final String sessionString = request.getCookie("JSESSIONID").getValue();
+
+//            if (sessionString != null) {
+//                context.put("isLoggedIn", true);
+//            } else {
+//                context.put("isLoggedIn", false);
+//            }
 
             final String rendered = template.execute(context);
             final byte[] rawContent = rendered.getBytes(StandardCharsets.UTF_8);

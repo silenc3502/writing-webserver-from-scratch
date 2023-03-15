@@ -96,7 +96,8 @@ public class WebApplication {
                         // redirect: http://localhost:8787/login.html
 
                         MemberRequest memberRequest = readRemainJsonStreamForMemberRequest(inputStream);
-                        Member member = new Member((long) memberList.size(), memberRequest.getUsername(), memberRequest.getPassword());
+                        //Member member = new Member((long) memberList.size(), memberRequest.getUsername(), memberRequest.getPassword());
+                        Member member = new Member(memberRequest.getUsername(), memberRequest.getPassword());
                         memberList.add(member);
 
                         System.out.println("회원 가입이 완료되었습니다!");

@@ -1,5 +1,7 @@
 package com.eddicorp.http;
 
+import com.eddicorp.session.Cookie;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -14,8 +16,8 @@ public class HttpRequest {
     private final HttpMethod httpMethod;
 
     private final Map<String, String> headerMap = new HashMap<>();
-
     private final Map<String, String> parameterMap = new HashMap<>();
+    private final Map<String, Cookie> cookieMap = new HashMap<>();
 
     private final byte[] rawBody;
 
@@ -27,8 +29,22 @@ public class HttpRequest {
         this.uri = uriAndQueryString[0].trim();
         parseHeaders(inputStream);
         final byte[] rawBody = parseBody(inputStream);
+        parseCookies();
         parseParameters(rawBody);
         this.rawBody = rawBody;
+    }
+
+    private void parseCookies() {
+        final String rawCookie = headerMap.get("Cookie");
+        if (rawCookie == null) {
+            return;
+        }
+        final String[] rawCookies = rawCookie.split(";");
+        for (String raw : rawCookies) {
+            final String[] keyAndValue = raw.split("=");
+            final Cookie cookie = new Cookie(keyAndValue[0].trim(), keyAndValue[1].trim());
+            cookieMap.put(cookie.getName(), cookie);
+        }
     }
 
     private void parseParameters(byte[] rawBody) throws UnsupportedEncodingException {
@@ -101,5 +117,9 @@ public class HttpRequest {
 
     public Map<String, String> getParameterMap() {
         return parameterMap;
+    }
+
+    public Cookie getCookie(String name) {
+        return cookieMap.get(name);
     }
 }

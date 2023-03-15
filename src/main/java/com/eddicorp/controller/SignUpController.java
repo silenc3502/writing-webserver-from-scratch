@@ -9,13 +9,13 @@ import com.eddicorp.network.Controller;
 
 public class SignUpController implements Controller {
 
-    private final MemberService userService = new MemberServiceImpl();
+    private final MemberService memberService = new MemberServiceImpl();
 
     @Override
     public void handle(HttpRequest request, HttpResponse response) {
         final String username = request.getParameter("username");
         final String password = request.getParameter("password");
-        userService.signUp(username, password);
+        memberService.signUp(username, password);
 
         response.setHeader("Location", "/login.html");
         response.setStatus(HttpStatus.FOUND);

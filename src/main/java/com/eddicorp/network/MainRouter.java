@@ -1,6 +1,7 @@
 package com.eddicorp.network;
 
 import com.eddicorp.controller.IndexController;
+import com.eddicorp.controller.SignInController;
 import com.eddicorp.controller.SignUpController;
 import com.eddicorp.http.HttpMethod;
 import com.eddicorp.http.HttpRequest;
@@ -24,6 +25,7 @@ public class MainRouter implements Controller {
         requestMap.put(mapSignUp, new SignUpController());
 
         final RequestMapper mapLogin = new RequestMapper("/login", HttpMethod.POST);
+        requestMap.put(mapLogin, new SignInController());
 
         final RequestMapper mapLogout = new RequestMapper("/logout", HttpMethod.GET);
 
