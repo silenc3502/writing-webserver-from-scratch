@@ -1,11 +1,11 @@
-package com.eddicorp.controller;
+package com.eddicorp.member.controller;
 
 import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;
 import com.eddicorp.http.HttpStatus;
 import com.eddicorp.member.service.MemberService;
 import com.eddicorp.member.service.MemberServiceImpl;
-import com.eddicorp.network.Controller;
+import com.eddicorp.router.Controller;
 
 public class SignUpController implements Controller {
 

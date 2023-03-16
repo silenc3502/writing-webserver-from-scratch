@@ -1,14 +1,12 @@
-package com.eddicorp.network.router;
+package com.eddicorp.router.router;
 
 import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;
-import com.eddicorp.network.MainRouter;
-import org.junit.jupiter.api.BeforeEach;
+import com.eddicorp.router.MainRouter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 

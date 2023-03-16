@@ -1,4 +1,4 @@
-package com.eddicorp.network;
+package com.eddicorp.router;
 
 import java.io.InputStream;
 import java.io.OutputStream;

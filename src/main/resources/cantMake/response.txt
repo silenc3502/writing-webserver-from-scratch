@@ -1,4 +1,3 @@
 HTTP/1.1 302 Found
-Set-Cookie: JSESSIONID=31d9f59a-4478-40c2-bea4-afcc7aa11146; Path=/; Domain=localhost; Max-Age=300
-Location: /
+Location: /login.html
 

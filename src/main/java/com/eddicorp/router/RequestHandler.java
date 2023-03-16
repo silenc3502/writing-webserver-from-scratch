@@ -1,4 +1,4 @@
-package com.eddicorp.network;
+package com.eddicorp.router;
 
 import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;

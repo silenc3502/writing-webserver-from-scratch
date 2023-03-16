@@ -1,10 +1,10 @@
-package com.eddicorp.network;
+package com.eddicorp.router;
 
 import com.eddicorp.blog.controller.BlogPostController;
-import com.eddicorp.controller.IndexController;
-import com.eddicorp.controller.LogoutController;
-import com.eddicorp.controller.SignInController;
-import com.eddicorp.controller.SignUpController;
+import com.eddicorp.controller.main.IndexController;
+import com.eddicorp.member.controller.LogoutController;
+import com.eddicorp.member.controller.SignInController;
+import com.eddicorp.member.controller.SignUpController;
 import com.eddicorp.http.HttpMethod;
 import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;

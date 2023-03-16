@@ -6,7 +6,7 @@ import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;
 import com.eddicorp.http.HttpStatus;
 import com.eddicorp.member.Member;
-import com.eddicorp.network.Controller;
+import com.eddicorp.router.Controller;
 import com.eddicorp.session.Cookie;
 import com.eddicorp.session.repository.SessionRepository;
 import com.eddicorp.session.repository.SessionRepositoryImpl;

@@ -5,7 +5,7 @@ import com.eddicorp.member.repository.MemberRepository;
 import com.eddicorp.member.repository.MemberRepositoryImpl;
 import com.eddicorp.member.service.MemberService;
 import com.eddicorp.member.service.MemberServiceImpl;
-import com.eddicorp.network.RequestHandler;
+import com.eddicorp.router.RequestHandler;
 import com.eddicorp.session.repository.SessionRepository;
 import com.eddicorp.session.repository.SessionRepositoryImpl;
 import com.eddicorp.session.service.SessionService;

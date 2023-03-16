@@ -2,9 +2,8 @@ package com.eddicorp.receive;
 
 import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;
-import com.eddicorp.network.Controller;
-import com.eddicorp.network.StaticFileController;
-import com.eddicorp.network.WebRequestReceiver;
+import com.eddicorp.router.Controller;
+import com.eddicorp.router.StaticFileController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

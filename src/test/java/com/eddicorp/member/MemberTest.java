@@ -4,8 +4,7 @@ import com.eddicorp.member.repository.MemberRepository;
 import com.eddicorp.member.repository.MemberRepositoryImpl;
 import com.eddicorp.member.service.MemberService;
 import com.eddicorp.member.service.MemberServiceImpl;
-import com.eddicorp.network.RequestHandler;
-import com.eddicorp.network.WebRequestReceiver;
+import com.eddicorp.router.RequestHandler;
 import com.eddicorp.session.repository.SessionRepository;
 import com.eddicorp.session.repository.SessionRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +12,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.*;

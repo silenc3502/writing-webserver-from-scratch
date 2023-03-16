@@ -1,4 +1,4 @@
-package com.eddicorp.controller;
+package com.eddicorp.member.controller;
 
 import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;
@@ -6,7 +6,7 @@ import com.eddicorp.http.HttpStatus;
 import com.eddicorp.member.Member;
 import com.eddicorp.member.service.MemberService;
 import com.eddicorp.member.service.MemberServiceImpl;
-import com.eddicorp.network.Controller;
+import com.eddicorp.router.Controller;
 import com.eddicorp.session.repository.SessionRepositoryImpl;
 import com.eddicorp.session.response.CookieResponse;
 import com.eddicorp.session.service.SessionService;

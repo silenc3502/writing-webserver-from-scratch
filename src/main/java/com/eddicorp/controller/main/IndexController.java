@@ -1,4 +1,4 @@
-package com.eddicorp.controller;
+package com.eddicorp.controller.main;
 
 import com.eddicorp.blog.Post;
 import com.eddicorp.blog.service.BlogPostService;
@@ -7,9 +7,8 @@ import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;
 import com.eddicorp.http.HttpStatus;
 import com.eddicorp.member.Member;
-import com.eddicorp.network.Controller;
+import com.eddicorp.router.Controller;
 import com.eddicorp.session.Cookie;
-import com.eddicorp.session.Session;
 import com.eddicorp.session.repository.SessionRepository;
 import com.eddicorp.session.repository.SessionRepositoryImpl;
 import com.samskivert.mustache.Mustache;
@@ -63,14 +62,7 @@ public class IndexController implements Controller {
             } else {
                 context.put("isLoggedIn", false);
             }
-            //JSESSIONID
-            //final String sessionString = request.getCookie("JSESSIONID").getValue();
 
-//            if (sessionString != null) {
-//                context.put("isLoggedIn", true);
-//            } else {
-//                context.put("isLoggedIn", false);
-//            }
             context.put("posts", posts);
 
             final String rendered = template.execute(context);
